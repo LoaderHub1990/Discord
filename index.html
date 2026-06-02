@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord User Dashboard - Full Data</title>
+    <title>Discord User Dashboard - Verification</title>
     <style>
         * {
             margin: 0;
@@ -34,7 +34,7 @@
         /* Banner ส่วนหัว */
         .banner {
             height: 120px;
-            background: #5865f2; /* สีเริ่มต้น */
+            background: #5865f2;
             position: relative;
             transition: background 0.3s ease;
         }
@@ -123,7 +123,7 @@
             word-break: break-all;
         }
 
-        /* บลบล็อกสำหรับแสดงข้อมูล Raw JSON */
+        /* โลโก้กล่องดิบข้อมูล */
         .raw-json-box {
             background: #111214;
             padding: 16px;
@@ -135,6 +135,7 @@
             white-space: pre-wrap;
             max-height: 250px;
             border: 1px solid #232428;
+            margin-bottom: 24px;
         }
 
         .badge {
@@ -147,6 +148,29 @@
             color: white;
         }
         .badge.false { background: #da373c; }
+
+        .btn-discord {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px;
+            background: #5865F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-discord:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(88, 101, 242, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -160,7 +184,7 @@
         </div>
         <div class="user-titles">
             <div class="global-name" id="global-name">รอดึงข้อมูล...</div>
-            <div class="username" id="username">@username</div>
+            <div class="username" id="username">กรุณากดปุ่มเพื่อยืนยันตัวตน</div>
         </div>
     </div>
 
@@ -198,68 +222,68 @@
         </div>
 
         <div class="section-title">ข้อมูลระบบทั้งหมด (Raw Developer JSON Data)</div>
-        <pre class="raw-json-box" id="raw-json">{ "status": "กำลังรอข้อมูลจริงจากระบบ..." }</pre>
+        <pre class="raw-json-box" id="raw-json">{ "status": "กำลังรอให้ล็อกอินสำเร็จ..." }</pre>
+
+        <a class="btn-discord" id="login-btn" href="https://discord.com/oauth2/authorize?client_id=1499108630325366905&response_type=code&redirect_uri=https%3A%2F%2Floaderhub1990.github.io%2FDiscord%2F&scope=identify+email">
+            เชื่อมต่อเพื่อดึงข้อมูลจริง
+        </a>
     </div>
 </div>
 
 <script>
-    // ฟังก์ชันจำลองการดึงข้อมูลมาใส่ใน UI (เมื่อเชื่อมต่อ Back-end สำเร็จให้ใช้ฟังก์ชันนี้ประมวลผล)
+    // สคริปต์ตรวจเช็คว่าใน URL มี Code ที่ Discord ส่งมาหรือไม่
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    if (code) {
+        document.getElementById('global-name').innerText = "กำลังประมวลผล...";
+        document.getElementById('raw-json').innerText = "กำลังนำโค้ดไปแลกข้อมูลจริง...";
+
+        /* [หมายเหตุสำคัญสำหรับเจ้าของเว็บ]
+           เนื่องจาก GitHub Pages เป็นแบบ Static Web ไม่สามารถเก็บความลับ Client Secret ได้อย่างปลอดภัย 
+           คุณจำเป็นต้องตั้งค่า API หลังบ้าน (เช่น Node.js / Express หรือ Serverless ของคุณ) 
+           เพื่อส่งคำขอต่อเพื่อความปลอดภัยสูงสุด จากนั้นนำข้อมูลจริงมาเปลี่ยนใน UI ด้านล่างนี้
+        */
+        
+        // ตัวอย่างจำลองการนำข้อมูลหลังจากส่งไปแปลงที่หลังบ้านของคุณสำเร็จ
+        // หากมีหลังบ้านของคุณแล้ว ให้เปิดใช้ fetch ชี้ไปที่เซิร์ฟเวอร์ของคุณได้เลยครับ
+        /*
+        fetch('https://YOUR_BACKEND_API_URL/api/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: code })
+        })
+        .then(res => res.json())
+        .then(data => {
+            renderUserData(data);
+        });
+        */
+
+        // สำหรับสาธิตโครงสร้างหากดึงข้อมูลมาแสดงสำเร็จ:
+        // (บรรทัดด้านล่างนี้จำลองเมื่อระบบได้รับข้อมูลจริง)
+        document.getElementById('raw-json').innerText = `ตรวจพบรหัสสำหรับดึงข้อมูล (Code Detected): \n"${code}"\n\nระบบจำเป็นต้องส่งรหัสนี้ไปประมวลผลต่อที่เซิร์ฟเวอร์หลังบ้าน (Back-end) เพื่อนำข้อมูลส่วนตัวเชิงลึกของผู้ใช้งานทั้งหมด (JSON ทั้งก้อน) กลับมาวาดบนหน้า UI นี้เพื่อความปลอดภัย`;
+    }
+
     function renderUserData(data) {
-        // 1. ตั้งค่าโปรไฟล์และรูปภาพ
         document.getElementById('global-name').innerText = data.global_name || data.username;
         document.getElementById('username').innerText = `@${data.username}`;
         document.getElementById('val-id').innerText = data.id;
-        document.getElementById('val-email').innerText = data.email || 'ไม่มีข้อมูล/ไม่ได้แชร์';
-        document.getElementById('val-locale').innerText = data.locale.toUpperCase();
+        document.getElementById('val-email').innerText = data.email || 'ไม่มีข้อมูล';
+        document.getElementById('val-locale').innerText = data.locale ? data.locale.toUpperCase() : '-';
 
-        // 2. ตรวจสอบรูปภาพโปรไฟล์ (ถ้าไม่มีให้ใช้รูปพื้นฐานของ Discord)
         if (data.avatar) {
             document.getElementById('avatar').src = `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png`;
         }
-
-        // 3. ปรับสี Banner ตามที่ผู้ใช้ตั้งค่าไว้ใน Discord
         if (data.banner_color) {
             document.getElementById('user-banner').style.backgroundColor = data.banner_color;
         }
-        if (data.banner) {
-            document.getElementById('user-banner').style.backgroundImage = `url(https://cdn.discordapp.com/banners/${data.id}/${data.banner}.png)`;
-            document.getElementById('user-banner').style.backgroundSize = 'cover';
-        }
-
-        // 4. แปลงสถานะความปลอดภัยให้เป็น Badge สวยๆ
-        document.getElementById('val-verified').innerHTML = data.verified 
-            ? '<span class="badge">ยืนยันแล้ว</span>' 
-            : '<span class="badge false">ยังไม่ยืนยัน</span>';
-            
-        document.getElementById('val-mfa').innerHTML = data.mfa_enabled 
-            ? '<span class="badge">เปิดใช้งาน 2FA</span>' 
-            : '<span class="badge false">ปิดใช้งาน</span>';
-
-        // 5. เช็คประเภท Nitro
+        document.getElementById('val-verified').innerHTML = data.verified ? '<span class="badge">ยืนยันแล้ว</span>' : '<span class="badge false">ยังไม่ยืนยัน</span>';
+        document.getElementById('val-mfa').innerHTML = data.mfa_enabled ? '<span class="badge">เปิดใช้งาน 2FA</span>' : '<span class="badge false">ปิดใช้งาน</span>';
+        
         const nitroTypes = { 0: "ไม่มี Nitro", 1: "Nitro Classic", 2: "Nitro", 3: "Nitro Basic" };
         document.getElementById('val-nitro').innerText = nitroTypes[data.premium_type] || "ไม่มี Nitro";
-
-        // 6. แสดงผลโครงสร้าง JSON ทั้งหมดให้เห็นชัดเจนในกล่อง Raw Data
         document.getElementById('raw-json').innerText = JSON.stringify(data, null, 2);
     }
-
-    /* ตัวอย่างทดสอบ: ปลดล็อกโค้ดด้านล่างนี้เพื่อทดลองดูการแสดงผลแบบเสมือนจริง 
-    */
-    const mockData = {
-       "id": "549810863032536690",
-       "username": "somchai_tester",
-       "global_name": "Somchai CH",
-       "avatar": "a_f99e4fde3c7e7b6d16f8496bc4f1a231",
-       "locale": "th",
-       "mfa_enabled": true,
-       "premium_type": 2,
-       "email": "somchai.test@gmail.com",
-       "verified": true,
-       "banner_color": "#ff5555"
-    };
-    
-    // เรียกใช้งานเพื่อแสดงผลตัวอย่าง (ลบออกเมื่อเชื่อมต่อระบบหลังบ้านจริง)
-    setTimeout(() => renderUserData(mockData), 1500);
 </script>
 </body>
 </html>
