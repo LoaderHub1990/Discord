@@ -1,38 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Discord Verify</title>
 
 <style>
-body{
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    background:#5865F2;
-    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#5865F2,#7B61FF,#00D4FF);
+}
+
+.card{
+    width:400px;
+    padding:30px;
+    border-radius:20px;
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(15px);
+    text-align:center;
+}
+
+.avatar{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    border:4px solid white;
+}
+
+h1{
+    color:white;
+    margin-top:15px;
+}
+
+p{
+    color:white;
+    margin-top:10px;
 }
 
 .btn{
+    display:block;
+    margin-top:20px;
+    padding:15px;
     background:white;
     color:#5865F2;
-    padding:15px 30px;
-    border-radius:10px;
     text-decoration:none;
-    font-size:20px;
+    border-radius:12px;
     font-weight:bold;
 }
 </style>
-
 </head>
+
 <body>
+
+<div class="card">
+
+<img class="avatar"
+src="https://cdn.discordapp.com/embed/avatars/0.png">
+
+<h1>Discord User</h1>
+
+<p>ID: 123456789012345678</p>
+
+<p>Email: user@example.com</p>
 
 <a class="btn"
 href="https://discord.com/oauth2/authorize?client_id=1499108630325366905&response_type=code&scope=identify%20email%20guilds">
 Login With Discord
 </a>
+
+</div>
 
 </body>
 </html>
