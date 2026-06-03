@@ -7,820 +7,499 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --pink: #ff2d78;
-    --pink-light: #ff6ba8;
-    --pink-dark: #c4005a;
-    --blue: #5865F2;
-    --blue-light: #7289da;
-    --gold: #f5c518;
-    --dark: #0d0d0f;
-    --dark2: #151519;
-    --dark3: #1e1e26;
-    --dark4: #252530;
-    --text: #f0e8f5;
-    --text-muted: #a89bb8;
-    --card-bg: #1a1a24;
-    --border: rgba(255,45,120,0.18);
+    --pink:#ff2d78;--pink-light:#ff6ba8;--pink-dark:#c4005a;
+    --blue:#5865F2;--gold:#f5c518;
+    --dark:#0d0d0f;--dark2:#151519;--dark3:#1e1e26;--dark4:#252530;
+    --text:#f0e8f5;--muted:#a89bb8;--card:#1a1a24;--border:rgba(255,45,120,.18);
   }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans Thai',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;z-index:0;
+    background:radial-gradient(ellipse 60% 50% at 80% 10%,rgba(255,45,120,.12),transparent 70%),
+    radial-gradient(ellipse 50% 40% at 10% 90%,rgba(88,101,242,.10),transparent 70%),var(--dark);pointer-events:none}
+  body::after{content:'';position:fixed;inset:0;z-index:0;
+    background-image:linear-gradient(rgba(255,45,120,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,45,120,.03) 1px,transparent 1px);
+    background-size:40px 40px;pointer-events:none}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:8px;padding:0 28px;height:60px;
+    background:rgba(13,13,15,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+  .nav-logo{display:flex;align-items:center;gap:10px;font-family:'Orbitron',sans-serif;font-size:15px;font-weight:900;
+    color:var(--pink);text-shadow:0 0 18px rgba(255,45,120,.6);letter-spacing:1px;margin-right:16px}
+  .nav-logo span{color:var(--text)}
+  .nav-logo .dot{width:8px;height:8px;border-radius:50%;background:var(--pink);box-shadow:0 0 10px var(--pink)}
+  .nav-links{display:flex;gap:4px;flex:1}
+  .nav-links a{padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;cursor:pointer;transition:all .2s}
+  .nav-links a:hover,.nav-links a.active{background:rgba(255,45,120,.15);color:var(--pink-light)}
+  .nav-links a.active{background:linear-gradient(135deg,rgba(255,45,120,.25),rgba(255,45,120,.10));color:var(--pink);box-shadow:0 0 0 1px rgba(255,45,120,.3)}
+  .nav-right{display:flex;align-items:center;gap:10px}
+  .nav-user{display:flex;align-items:center;gap:10px;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:6px 14px 6px 8px}
+  .nav-avatar{width:30px;height:30px;border-radius:50%;border:2px solid var(--pink);object-fit:cover;background:var(--dark4)}
+  .nav-uname{font-size:13px;font-weight:600}
+  .nav-tag{font-size:11px;color:var(--muted)}
+  .btn-logout{padding:7px 14px;border-radius:8px;background:rgba(255,45,120,.12);border:1px solid rgba(255,45,120,.3);
+    color:var(--pink-light);font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+  .btn-logout:hover{background:rgba(255,45,120,.25)}
 
-  body {
-    font-family: 'Noto Sans Thai', sans-serif;
-    background: var(--dark);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+  /* MAIN */
+  main{position:relative;z-index:1;padding:0 28px 48px;max-width:1280px;margin:0 auto}
 
-  /* ─── BACKGROUND ──────────────────────────────── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 80% 10%, rgba(255,45,120,0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 40% at 10% 90%, rgba(88,101,242,0.10) 0%, transparent 70%),
-      var(--dark);
-    pointer-events: none;
-  }
+  /* ── LOGIN ── */
+  #pg-login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 60px);padding:40px 20px}
+  .login-card{background:linear-gradient(145deg,#1c1c28,#141420);border:1px solid var(--border);border-radius:24px;
+    padding:48px 52px;max-width:440px;width:100%;text-align:center;
+    box-shadow:0 0 60px rgba(255,45,120,.08),0 24px 48px rgba(0,0,0,.4);position:relative;overflow:hidden}
+  .login-card::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+    width:300px;height:200px;background:radial-gradient(ellipse,rgba(255,45,120,.18),transparent 70%);pointer-events:none}
+  .login-emoji{font-size:52px;margin-bottom:16px;display:block;filter:drop-shadow(0 0 16px rgba(255,45,120,.5))}
+  .login-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;color:var(--pink);
+    text-shadow:0 0 20px rgba(255,45,120,.5);margin-bottom:8px}
+  .login-sub{font-size:13px;color:var(--muted);margin-bottom:32px;line-height:1.7}
+  .btn-discord{display:inline-flex;align-items:center;gap:12px;width:100%;padding:14px 24px;border-radius:12px;
+    background:linear-gradient(135deg,#5865F2,#4752c4);border:none;color:#fff;
+    font-family:'Noto Sans Thai',sans-serif;font-size:15px;font-weight:700;cursor:pointer;
+    transition:all .25s;box-shadow:0 4px 20px rgba(88,101,242,.4);justify-content:center;text-decoration:none}
+  .btn-discord:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(88,101,242,.55)}
+  .btn-discord svg{width:22px;height:22px;fill:#fff;flex-shrink:0}
+  .login-note{margin-top:14px;font-size:11px;color:var(--muted);opacity:.65;line-height:1.6}
 
-  /* subtle grid */
-  body::after {
-    content: '';
-    position: fixed; inset: 0; z-index: 0;
-    background-image:
-      linear-gradient(rgba(255,45,120,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,45,120,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-  }
+  /* ── DASHBOARD ── */
+  #pg-dash{display:none}
+  .hero{margin-top:28px;border-radius:20px;
+    background:linear-gradient(120deg,var(--pink-dark),var(--pink) 50%,#ff6b9e);
+    padding:32px 40px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(255,45,120,.3)}
+  .hero::before{content:'';position:absolute;inset:0;
+    background:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 1px,transparent 1px,transparent 12px)}
+  .hero h1{font-size:24px;font-weight:900;color:#fff;position:relative}
+  .hero p{font-size:13px;color:rgba(255,255,255,.85);margin-top:6px;position:relative}
 
-  /* ─── NAVBAR ──────────────────────────────────── */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 8px;
-    padding: 0 28px;
-    height: 60px;
-    background: rgba(13,13,15,0.85);
-    backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo {
-    display: flex; align-items: center; gap: 10px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 15px; font-weight: 900;
-    color: var(--pink);
-    text-shadow: 0 0 18px rgba(255,45,120,0.6);
-    letter-spacing: 1px;
-    margin-right: 16px;
-  }
-  .nav-logo span { color: var(--text); }
-  .nav-logo .dot { width:8px;height:8px;border-radius:50%;background:var(--pink);box-shadow:0 0 10px var(--pink); }
+  .sec-title{display:flex;align-items:center;gap:10px;margin:28px 0 14px;
+    font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
+  .sec-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
 
-  .nav-links { display: flex; gap: 4px; flex: 1; }
-  .nav-links a {
-    padding: 7px 16px;
-    border-radius: 8px;
-    font-size: 13px; font-weight: 600;
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: all .2s;
-    cursor: pointer;
-  }
-  .nav-links a:hover, .nav-links a.active {
-    background: rgba(255,45,120,0.15);
-    color: var(--pink-light);
-  }
-  .nav-links a.active {
-    background: linear-gradient(135deg, rgba(255,45,120,0.25), rgba(255,45,120,0.10));
-    color: var(--pink);
-    box-shadow: 0 0 0 1px rgba(255,45,120,0.3);
-  }
+  .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:4px}
+  .stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:12px}
+  .stat-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .si-pink{background:rgba(255,45,120,.15)} .si-blue{background:rgba(88,101,242,.15)}
+  .si-gold{background:rgba(245,197,24,.15)} .si-green{background:rgba(35,205,99,.15)}
+  .stat-val{font-size:22px;font-weight:900;line-height:1}
+  .stat-lbl{font-size:11px;color:var(--muted);margin-top:3px}
 
-  .nav-right { display: flex; align-items: center; gap: 12px; }
-  .nav-user {
-    display: flex; align-items: center; gap: 10px;
-    background: var(--dark3);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 6px 14px 6px 8px;
-    cursor: pointer;
-    transition: all .2s;
-  }
-  .nav-user:hover { border-color: var(--pink); background: var(--dark4); }
-  .nav-user img { width:30px;height:30px;border-radius:50%;border:2px solid var(--pink); object-fit:cover; }
-  .nav-user .uname { font-size: 13px; font-weight: 600; color: var(--text); }
-  .nav-user .utag { font-size: 11px; color: var(--text-muted); }
+  .acc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .acc-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;
+    transition:all .25s;cursor:pointer;position:relative}
+  .acc-card:hover{border-color:var(--pink);transform:translateY(-4px);box-shadow:0 12px 40px rgba(255,45,120,.15)}
+  .card-head{height:68px;background:linear-gradient(135deg,#5865F2,#4045b8);position:relative;overflow:hidden}
+  .acc-card.prem .card-head{background:linear-gradient(135deg,#c4005a,#7b0038)}
+  .card-head-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(255,255,255,.12),transparent 60%)}
+  .crown{position:absolute;top:8px;right:10px;font-size:17px}
+  .card-avi{position:absolute;bottom:-22px;left:16px;width:48px;height:48px;border-radius:50%;
+    border:3px solid var(--card);overflow:hidden;z-index:2;background:var(--dark3)}
+  .card-avi img{width:100%;height:100%;object-fit:cover}
+  .card-body{padding:30px 16px 14px}
+  .acc-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .acc-sub{font-size:11px;color:var(--muted);margin-top:2px}
+  .badges{display:flex;gap:5px;margin-top:9px;flex-wrap:wrap}
+  .badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+  .b-blue{background:rgba(88,101,242,.2);color:#7289da;border:1px solid rgba(88,101,242,.3)}
+  .b-pink{background:rgba(255,45,120,.15);color:var(--pink-light);border:1px solid rgba(255,45,120,.3)}
+  .b-gold{background:rgba(245,197,24,.15);color:var(--gold);border:1px solid rgba(245,197,24,.3)}
+  .b-green{background:rgba(35,205,99,.15);color:#23d363;border:1px solid rgba(35,205,99,.3)}
+  .card-foot{padding:0 16px 14px;display:flex;gap:7px}
+  .btn-view{flex:1;padding:9px;border-radius:10px;background:linear-gradient(135deg,var(--pink),var(--pink-dark));
+    border:none;color:#fff;font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:700;cursor:pointer;
+    transition:all .2s;box-shadow:0 4px 12px rgba(255,45,120,.3)}
+  .btn-view:hover{box-shadow:0 6px 20px rgba(255,45,120,.45);transform:translateY(-1px)}
+  .btn-copy{padding:9px 12px;border-radius:10px;background:var(--dark3);border:1px solid var(--border);
+    color:var(--muted);font-size:12px;cursor:pointer;transition:all .2s}
+  .btn-copy:hover{border-color:var(--pink);color:var(--pink-light)}
 
-  /* ─── PAGE WRAPPER ────────────────────────────── */
-  main { position: relative; z-index: 1; padding: 0 28px 40px; max-width: 1280px; margin: 0 auto; }
+  /* MODAL */
+  #overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.72);
+    backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px}
+  #overlay.open{display:flex}
+  .modal{background:linear-gradient(145deg,#1c1c28,#141420);border:1px solid var(--border);border-radius:24px;
+    width:100%;max-width:520px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.5);animation:popIn .25s ease}
+  @keyframes popIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+  .m-head{height:96px;background:linear-gradient(135deg,#5865F2,#3a40b0);position:relative}
+  .m-head.prem{background:linear-gradient(135deg,#c4005a,#7b0038)}
+  .m-close{position:absolute;top:10px;right:12px;width:28px;height:28px;border-radius:50%;
+    background:rgba(0,0,0,.3);border:none;color:#fff;font-size:14px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:background .2s}
+  .m-close:hover{background:rgba(255,45,120,.5)}
+  .m-avi{position:absolute;bottom:-34px;left:26px;width:68px;height:68px;border-radius:50%;
+    border:4px solid #141420;overflow:hidden;background:var(--dark3)}
+  .m-avi img{width:100%;height:100%;object-fit:cover}
+  .m-body{padding:46px 26px 24px}
+  .m-name{font-size:19px;font-weight:800}
+  .m-tag{font-size:12px;color:var(--muted);margin-bottom:14px}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+  .info-item{background:var(--dark3);border-radius:10px;padding:11px 13px}
+  .info-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+  .info-val{font-size:12px;font-weight:600;word-break:break-all}
+  .info-val.mono{font-family:monospace;font-size:11px;color:var(--pink-light)}
+  .guild-list{display:flex;flex-direction:column;gap:7px;max-height:180px;overflow-y:auto}
+  .guild-item{display:flex;align-items:center;gap:9px;background:var(--dark3);border-radius:10px;padding:8px 12px}
+  .g-icon{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--pink));
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+  .g-name{font-size:12px;font-weight:600}
+  .g-id{font-size:10px;color:var(--muted)}
+  .m-actions{display:flex;gap:9px;margin-top:18px}
+  .btn-full{flex:1;padding:11px;border-radius:11px;border:none;font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+  .btn-prim{background:linear-gradient(135deg,var(--pink),var(--pink-dark));color:#fff;box-shadow:0 4px 14px rgba(255,45,120,.35)}
+  .btn-prim:hover{box-shadow:0 6px 20px rgba(255,45,120,.5);transform:translateY(-1px)}
+  .btn-sec{background:var(--dark3);color:var(--muted);border:1px solid var(--border)}
+  .btn-sec:hover{border-color:var(--pink);color:var(--pink-light)}
 
-  /* ─── LOGIN PAGE ──────────────────────────────── */
-  #loginPage {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    min-height: calc(100vh - 60px);
-    padding: 40px 20px;
-  }
+  /* LOADING */
+  #loading{display:none;position:fixed;inset:0;z-index:300;background:rgba(13,13,15,.92);
+    align-items:center;justify-content:center;flex-direction:column;gap:16px}
+  #loading.open{display:flex}
+  .spinner{width:46px;height:46px;border:3px solid var(--dark4);border-top-color:var(--pink);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loading-txt{font-size:13px;color:var(--muted)}
 
-  .login-card {
-    background: linear-gradient(145deg, #1c1c28, #141420);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 48px 52px;
-    max-width: 440px; width: 100%;
-    text-align: center;
-    box-shadow: 0 0 60px rgba(255,45,120,0.08), 0 24px 48px rgba(0,0,0,0.4);
-    position: relative;
-    overflow: hidden;
-  }
-  .login-card::before {
-    content: '';
-    position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
-    width: 300px; height: 200px;
-    background: radial-gradient(ellipse, rgba(255,45,120,0.18), transparent 70%);
-    pointer-events: none;
-  }
+  /* TOAST */
+  #toast{position:fixed;bottom:26px;right:26px;z-index:400;background:var(--dark3);border:1px solid var(--border);
+    border-radius:11px;padding:11px 18px;font-size:13px;opacity:0;transform:translateY(8px);
+    transition:all .3s;pointer-events:none}
+  #toast.show{opacity:1;transform:translateY(0)}
 
-  .login-avatar {
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    border: 3px solid var(--pink);
-    box-shadow: 0 0 24px rgba(255,45,120,0.5);
-    margin: 0 auto 20px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 36px;
-    background: var(--dark3);
-  }
-  .login-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 22px; font-weight: 900;
-    color: var(--pink);
-    text-shadow: 0 0 20px rgba(255,45,120,0.5);
-    margin-bottom: 8px;
-  }
-  .login-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; }
+  /* EMPTY */
+  .empty{text-align:center;padding:60px 20px;color:var(--muted)}
+  .empty .e-icon{font-size:48px;margin-bottom:12px;display:block;opacity:.5}
 
-  .btn-discord {
-    display: inline-flex; align-items: center; gap: 12px;
-    width: 100%;
-    padding: 14px 24px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #5865F2, #4752c4);
-    border: none;
-    color: #fff;
-    font-family: 'Noto Sans Thai', sans-serif;
-    font-size: 15px; font-weight: 700;
-    cursor: pointer;
-    transition: all .25s;
-    box-shadow: 0 4px 20px rgba(88,101,242,0.4);
-    justify-content: center;
-    text-decoration: none;
-  }
-  .btn-discord:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(88,101,242,0.55);
-    background: linear-gradient(135deg, #6875F5, #5865F2);
-  }
-  .btn-discord svg { width:22px;height:22px;fill:#fff;flex-shrink:0; }
+  ::-webkit-scrollbar{width:5px}
+  ::-webkit-scrollbar-track{background:var(--dark2)}
+  ::-webkit-scrollbar-thumb{background:var(--dark4);border-radius:3px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--pink-dark)}
 
-  .login-note { margin-top: 16px; font-size: 11px; color: var(--text-muted); opacity:.7; }
-
-  /* ─── DASHBOARD PAGE ──────────────────────────── */
-  #dashPage { display: none; }
-
-  /* Hero Banner */
-  .hero-banner {
-    margin-top: 28px;
-    border-radius: 20px;
-    background: linear-gradient(120deg, var(--pink-dark) 0%, var(--pink) 50%, #ff6b9e 100%);
-    padding: 32px 40px;
-    display: flex; align-items: center; justify-content: space-between;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 8px 32px rgba(255,45,120,0.3);
-  }
-  .hero-banner::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-  .hero-text { position: relative; }
-  .hero-text h1 { font-size: 26px; font-weight: 900; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-  .hero-text p { font-size: 13px; color: rgba(255,255,255,0.85); margin-top: 6px; }
-
-  /* Section Title */
-  .section-title {
-    display: flex; align-items: center; gap: 10px;
-    margin: 32px 0 16px;
-    font-size: 15px; font-weight: 700; color: var(--text-muted);
-    text-transform: uppercase; letter-spacing: 1.5px;
-  }
-  .section-title::after {
-    content: ''; flex: 1; height: 1px;
-    background: linear-gradient(to right, var(--border), transparent);
-  }
-
-  /* ─── ACCOUNT GRID ────────────────────────────── */
-  .acc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 16px;
-  }
-
-  .acc-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    overflow: hidden;
-    transition: all .25s;
-    cursor: pointer;
-    position: relative;
-  }
-  .acc-card:hover {
-    border-color: var(--pink);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(255,45,120,0.15);
-  }
-  .acc-card .card-header {
-    height: 72px;
-    background: linear-gradient(135deg, #5865F2 0%, #4045b8 100%);
-    position: relative;
-    overflow: hidden;
-  }
-  .acc-card.premium .card-header {
-    background: linear-gradient(135deg, #c4005a 0%, #7b0038 100%);
-  }
-  .acc-card .crown {
-    position: absolute; top: 8px; right: 10px;
-    font-size: 18px;
-  }
-  .acc-card .card-header-blur {
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 30% 60%, rgba(255,255,255,0.12), transparent 60%);
-  }
-  .acc-card .card-avatar {
-    position: absolute;
-    bottom: -24px; left: 18px;
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    border: 3px solid var(--card-bg);
-    background: var(--dark3);
-    overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    z-index: 2;
-  }
-  .acc-card .card-avatar img { width:100%;height:100%;object-fit:cover; }
-
-  .acc-card .card-body {
-    padding: 32px 18px 18px;
-  }
-  .acc-card .acc-name {
-    font-size: 15px; font-weight: 700;
-    color: var(--text);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .acc-card .acc-tag {
-    font-size: 12px; color: var(--text-muted); margin-top: 2px;
-  }
-  .acc-card .acc-badges {
-    display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;
-  }
-  .badge {
-    font-size: 10px; font-weight: 700;
-    padding: 3px 8px; border-radius: 20px;
-    text-transform: uppercase; letter-spacing: .5px;
-  }
-  .badge-blue { background: rgba(88,101,242,0.2); color: #7289da; border: 1px solid rgba(88,101,242,0.3); }
-  .badge-pink { background: rgba(255,45,120,0.15); color: var(--pink-light); border: 1px solid rgba(255,45,120,0.3); }
-  .badge-gold { background: rgba(245,197,24,0.15); color: var(--gold); border: 1px solid rgba(245,197,24,0.3); }
-  .badge-green { background: rgba(35,205,99,0.15); color: #23d363; border: 1px solid rgba(35,205,99,0.3); }
-
-  .acc-card .card-footer {
-    padding: 0 18px 16px;
-    display: flex; gap: 8px;
-  }
-  .btn-join {
-    flex: 1;
-    padding: 9px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, var(--pink), var(--pink-dark));
-    border: none; color: #fff;
-    font-family: 'Noto Sans Thai', sans-serif;
-    font-size: 12px; font-weight: 700;
-    cursor: pointer;
-    transition: all .2s;
-    box-shadow: 0 4px 14px rgba(255,45,120,0.35);
-  }
-  .btn-join:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,45,120,0.45); }
-
-  .btn-view {
-    padding: 9px 14px;
-    border-radius: 10px;
-    background: var(--dark3);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    font-family: 'Noto Sans Thai', sans-serif;
-    font-size: 12px; font-weight: 600;
-    cursor: pointer;
-    transition: all .2s;
-  }
-  .btn-view:hover { border-color: var(--pink); color: var(--pink-light); }
-
-  /* ─── STATS ROW ───────────────────────────────── */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 14px;
-    margin-bottom: 8px;
-  }
-  .stat-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px 20px;
-    display: flex; align-items: center; gap: 14px;
-  }
-  .stat-icon {
-    width: 44px; height: 44px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-  .si-pink { background: rgba(255,45,120,0.15); }
-  .si-blue { background: rgba(88,101,242,0.15); }
-  .si-gold { background: rgba(245,197,24,0.15); }
-  .si-green { background: rgba(35,205,99,0.15); }
-  .stat-val { font-size: 22px; font-weight: 900; color: var(--text); line-height:1; }
-  .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
-
-  /* ─── MODAL / DETAIL ──────────────────────────── */
-  #modalOverlay {
-    display: none;
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(8px);
-    align-items: center; justify-content: center;
-    padding: 20px;
-  }
-  #modalOverlay.open { display: flex; }
-
-  .modal {
-    background: linear-gradient(145deg, #1c1c28, #141420);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    width: 100%; max-width: 520px;
-    overflow: hidden;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
-    animation: popIn .25s ease;
-  }
-  @keyframes popIn { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-  .modal-header {
-    height: 100px;
-    background: linear-gradient(135deg, #5865F2, #3a40b0);
-    position: relative;
-  }
-  .modal-header.premium-bg { background: linear-gradient(135deg, #c4005a, #7b0038); }
-  .modal-close {
-    position: absolute; top: 12px; right: 14px;
-    width: 30px; height: 30px; border-radius: 50%;
-    background: rgba(0,0,0,0.3); border: none; color: #fff;
-    font-size: 16px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .2s;
-  }
-  .modal-close:hover { background: rgba(255,45,120,0.5); }
-  .modal-avatar {
-    position: absolute;
-    bottom: -36px; left: 28px;
-    width: 72px; height: 72px;
-    border-radius: 50%;
-    border: 4px solid #141420;
-    background: var(--dark3);
-    overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 32px;
-  }
-  .modal-avatar img { width:100%;height:100%;object-fit:cover; }
-  .modal-body { padding: 48px 28px 28px; }
-  .modal-name { font-size: 20px; font-weight: 800; color: var(--text); }
-  .modal-discrim { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
-
-  .info-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 12px; margin-bottom: 20px;
-  }
-  .info-item { background: var(--dark3); border-radius: 10px; padding: 12px 14px; }
-  .info-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .info-val { font-size: 13px; font-weight: 600; color: var(--text); word-break: break-all; }
-  .info-val.mono { font-family: monospace; font-size: 12px; color: var(--pink-light); }
-
-  .guild-list { display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; }
-  .guild-item {
-    display: flex; align-items: center; gap: 10px;
-    background: var(--dark3); border-radius: 10px; padding: 8px 12px;
-  }
-  .guild-icon {
-    width: 34px; height: 34px; border-radius: 10px;
-    background: linear-gradient(135deg, var(--blue), var(--pink));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 800; color: #fff; flex-shrink: 0;
-  }
-  .guild-name { font-size: 13px; font-weight: 600; color: var(--text); }
-  .guild-id { font-size: 11px; color: var(--text-muted); }
-
-  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-  .btn-full {
-    flex: 1; padding: 12px;
-    border-radius: 12px; border: none;
-    font-family: 'Noto Sans Thai', sans-serif;
-    font-size: 13px; font-weight: 700;
-    cursor: pointer; transition: all .2s;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--pink), var(--pink-dark));
-    color: #fff;
-    box-shadow: 0 4px 14px rgba(255,45,120,0.35);
-  }
-  .btn-primary:hover { box-shadow: 0 6px 20px rgba(255,45,120,0.5); transform:translateY(-1px); }
-  .btn-secondary {
-    background: var(--dark3); color: var(--text-muted);
-    border: 1px solid var(--border);
-  }
-  .btn-secondary:hover { border-color: var(--pink); color: var(--pink-light); }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--dark2); }
-  ::-webkit-scrollbar-thumb { background: var(--dark4); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--pink-dark); }
-
-  /* ─── LOADING ─────────────────────────────────── */
-  .loading-overlay {
-    display: none;
-    position: fixed; inset: 0; z-index: 300;
-    background: rgba(13,13,15,0.9);
-    align-items: center; justify-content: center;
-    flex-direction: column; gap: 16px;
-  }
-  .loading-overlay.open { display: flex; }
-  .spinner {
-    width: 48px; height: 48px;
-    border: 3px solid var(--dark4);
-    border-top-color: var(--pink);
-    border-radius: 50%;
-    animation: spin .8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Toast */
-  #toast {
-    position: fixed; bottom: 28px; right: 28px; z-index: 400;
-    background: var(--dark3);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 20px;
-    font-size: 13px; color: var(--text);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all .3s;
-    pointer-events: none;
-  }
-  #toast.show { opacity: 1; transform: translateY(0); }
-
-  @media (max-width: 600px) {
-    nav { padding: 0 16px; }
-    main { padding: 0 16px 40px; }
-    .login-card { padding: 36px 24px; }
-    .hero-banner { padding: 24px; }
-    .info-grid { grid-template-columns: 1fr; }
-    .modal-body { padding: 40px 20px 20px; }
+  @media(max-width:600px){
+    nav{padding:0 14px} main{padding:0 14px 40px}
+    .login-card{padding:36px 22px} .hero{padding:22px}
+    .info-grid{grid-template-columns:1fr} .m-body{padding:40px 18px 20px}
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-logo">
-    <div class="dot"></div>
-    LOADER<span>HUB</span>
-  </div>
+  <div class="nav-logo"><div class="dot"></div>LOADER<span>HUB</span></div>
   <div class="nav-links" id="navLinks" style="display:none">
     <a class="active">Dashboard</a>
-    <a>Accounts</a>
-    <a>Servers</a>
-    <a>Settings</a>
+    <a onclick="filterCards('all')" style="cursor:pointer">บัญชีทั้งหมด</a>
+    <a onclick="filterCards('prem')" style="cursor:pointer">Nitro</a>
   </div>
   <div style="flex:1"></div>
   <div class="nav-right">
-    <div id="navUser" class="nav-user" style="display:none">
-      <div id="navAvatar" style="width:30px;height:30px;border-radius:50%;border:2px solid var(--pink);background:var(--dark3);display:flex;align-items:center;justify-content:center;font-size:14px;">👤</div>
+    <div class="nav-user" id="navUser" style="display:none">
+      <img class="nav-avatar" id="navAvi" src="" onerror="this.style.display='none'">
       <div>
-        <div class="uname" id="navName">–</div>
-        <div class="utag" id="navTag">#0000</div>
+        <div class="nav-uname" id="navName">–</div>
+        <div class="nav-tag" id="navTag">#0000</div>
       </div>
     </div>
-    <button id="logoutBtn" style="display:none;padding:7px 14px;border-radius:8px;background:rgba(255,45,120,0.12);border:1px solid rgba(255,45,120,0.3);color:var(--pink-light);font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:600;cursor:pointer;" onclick="logout()">ออกจากระบบ</button>
+    <button class="btn-logout" id="btnLogout" style="display:none" onclick="logout()">ออกจากระบบ</button>
   </div>
 </nav>
 
 <main>
-  <!-- LOGIN PAGE -->
-  <div id="loginPage">
+  <!-- LOGIN -->
+  <div id="pg-login">
     <div class="login-card">
-      <div class="login-avatar">🎀</div>
+      <span class="login-emoji">🎀</span>
       <div class="login-title">LOADER HUB</div>
-      <p class="login-sub">ระบบจัดการบัญชี Discord<br>เข้าสู่ระบบด้วย Discord เพื่อดูข้อมูลบัญชีของคุณ</p>
-
-      <a id="loginBtn" class="btn-discord" href="#" onclick="startLogin(event)">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.033.055a19.87 19.87 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-        </svg>
+      <p class="login-sub">เชื่อมต่อ Discord เพื่อดูข้อมูลบัญชี<br>ที่ได้ authorize บอทของเรา</p>
+      <a id="btnLogin" class="btn-discord" href="#">
+        <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.033.055a19.87 19.87 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
         เข้าสู่ระบบด้วย Discord
       </a>
-      <p class="login-note">⚠️ Demo mode – ข้อมูลสุ่มจำลองจากการ authorize</p>
+      <p class="login-note">🔒 ระบบจะขอสิทธิ์เข้าถึงข้อมูลโปรไฟล์และเซิร์ฟเวอร์ของคุณ<br>ผ่าน Discord OAuth2 อย่างปลอดภัย</p>
     </div>
   </div>
 
-  <!-- DASHBOARD PAGE -->
-  <div id="dashPage">
-    <!-- Hero -->
-    <div class="hero-banner">
-      <div class="hero-text">
-        <h1>🎀 ยินดีต้อนรับกลับมา!</h1>
-        <p>บัญชีทั้งหมดที่เพิ่มบอทของเราผ่าน OAuth2 จะแสดงที่นี่</p>
-      </div>
+  <!-- DASHBOARD -->
+  <div id="pg-dash">
+    <div class="hero">
+      <h1 id="heroGreet">🎀 ยินดีต้อนรับ!</h1>
+      <p>บัญชีที่เพิ่มบอทผ่าน OAuth2 ทั้งหมดแสดงที่นี่</p>
     </div>
 
-    <!-- Stats -->
-    <div class="section-title">ภาพรวม</div>
+    <div class="sec-title">ภาพรวม</div>
     <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-icon si-pink">👥</div>
-        <div><div class="stat-val" id="statTotal">0</div><div class="stat-label">บัญชีทั้งหมด</div></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon si-gold">👑</div>
-        <div><div class="stat-val" id="statPremium">0</div><div class="stat-label">Nitro / Premium</div></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon si-blue">🏠</div>
-        <div><div class="stat-val" id="statServers">0</div><div class="stat-label">เซิร์ฟเวอร์รวม</div></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon si-green">✅</div>
-        <div><div class="stat-val" id="statVerified">0</div><div class="stat-label">ยืนยันอีเมล</div></div>
-      </div>
+      <div class="stat-card"><div class="stat-icon si-pink">👥</div><div><div class="stat-val" id="sTotal">0</div><div class="stat-lbl">บัญชีทั้งหมด</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-gold">👑</div><div><div class="stat-val" id="sPrem">0</div><div class="stat-lbl">Nitro / Premium</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-blue">🏠</div><div><div class="stat-val" id="sSvr">0</div><div class="stat-lbl">เซิร์ฟเวอร์รวม</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-green">✅</div><div><div class="stat-val" id="sVfy">0</div><div class="stat-lbl">ยืนยันอีเมล</div></div></div>
     </div>
 
-    <!-- Account Grid -->
-    <div class="section-title">บัญชีที่เพิ่มบอท</div>
+    <div class="sec-title">บัญชีที่เพิ่มบอท</div>
     <div class="acc-grid" id="accGrid"></div>
   </div>
 </main>
 
 <!-- MODAL -->
-<div id="modalOverlay">
-  <div class="modal" id="modal">
-    <div class="modal-header" id="modalHeader">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-      <div class="modal-avatar" id="modalAvatar"></div>
+<div id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="m-head" id="mHead">
+      <button class="m-close" onclick="closeModal()">✕</button>
+      <div class="m-avi" id="mAvi"></div>
     </div>
-    <div class="modal-body">
-      <div class="modal-name" id="modalName"></div>
-      <div class="modal-discrim" id="modalDiscrim"></div>
-      <div class="info-grid" id="modalInfoGrid"></div>
-      <div class="section-title" style="margin:16px 0 10px;font-size:11px;">เซิร์ฟเวอร์</div>
-      <div class="guild-list" id="modalGuilds"></div>
-      <div class="modal-actions">
-        <button class="btn-full btn-primary" onclick="copyToken()">📋 คัดลอก Token</button>
-        <button class="btn-full btn-secondary" onclick="closeModal()">ปิด</button>
+    <div class="m-body">
+      <div class="m-name" id="mName"></div>
+      <div class="m-tag" id="mTag"></div>
+      <div class="info-grid" id="mInfo"></div>
+      <div class="sec-title" style="margin:14px 0 9px;font-size:10px">เซิร์ฟเวอร์</div>
+      <div class="guild-list" id="mGuilds"></div>
+      <div class="m-actions">
+        <button class="btn-full btn-prim" onclick="copyInfo()">📋 คัดลอกข้อมูล</button>
+        <button class="btn-full btn-sec" onclick="closeModal()">ปิด</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- LOADING -->
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="spinner"></div>
-  <div style="color:var(--text-muted);font-size:13px;">กำลังโหลด…</div>
-</div>
-
+<div id="loading"><div class="spinner"></div><div class="loading-txt" id="loadTxt">กำลังโหลด…</div></div>
 <div id="toast"></div>
 
 <script>
-// ─── MOCK DATA GENERATOR ───────────────────────────
-const AVATARS = ['🐱','🦊','🐼','🐸','🦄','🐺','🦋','🐧','🦅','🐙'];
-const NAMES = ['Natsume','Yuki','Hana','Rin','Sora','Miku','Kira','Luna','Aoi','Rei','Sakura','Neko','Yuna','Hiro','Tomo'];
-const TAGS = ['0001','1234','4269','7777','0042','9999','1337','0100','2048','5555'];
-const PERMS = ['administrator','manage_guild','manage_channels','kick_members','ban_members'];
+// ════════════════════════════════════════════════
+// CONFIG — แก้ค่าตรงนี้ให้ตรงกับ backend ของคุณ
+// ════════════════════════════════════════════════
+const BACKEND = 'https://loaderhub1990.github.io/Discord/'; // ← เปลี่ยนเป็น URL backend จริง
+const OAUTH_URL = 'https://discord.com/oauth2/authorize?client_id=1499108630325366905&response_type=code&redirect_uri=https%3A%2F%2Floaderhub1990.github.io%2FDiscord%2F&scope=email+guilds.join+gdm.join+rpc.notifications.read+rpc.video.read+identify.premium+rpc+guilds+voice+dm_channels.messages.write+dm_channels.read';
 
-function rng(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-function rngInt(a,b) { return Math.floor(Math.random()*(b-a+1))+a; }
-function makeId() { return String(BigInt(Date.now()) * BigInt(rngInt(100000,999999))); }
-function makeToken() { return btoa(rng(NAMES)+rng(TAGS)).replace(/=/g,'') + '.' + Math.random().toString(36).slice(2,10) + '.' + Math.random().toString(36).slice(2,20); }
-
-function makeGuilds(n) {
-  const list = [];
-  for (let i=0;i<n;i++) {
-    const name = rng(NAMES)+' Server';
-    list.push({ id: makeId(), name, icon: name.slice(0,2), owner: Math.random()>.7, permissions: rng(PERMS) });
-  }
-  return list;
-}
-
-function makeAccount(idx) {
-  const name = rng(NAMES) + (Math.random()>.5 ? rng(NAMES) : '');
-  const tag = rng(TAGS);
-  const premium = Math.random() > .6;
-  const verified = Math.random() > .3;
-  return {
-    id: makeId(),
-    username: name,
-    discriminator: tag,
-    email: name.toLowerCase() + '@gmail.com',
-    avatar: rng(AVATARS),
-    verified,
-    premium_type: premium ? rngInt(1,3) : 0,
-    locale: 'th',
-    mfa_enabled: Math.random() > .5,
-    token: makeToken(),
-    guilds: makeGuilds(rngInt(2, 12)),
-    joined: new Date(Date.now() - rngInt(1,365)*86400000).toLocaleDateString('th-TH'),
-  };
-}
-
-// ─── STATE ─────────────────────────────────────────
-let accounts = [];
-let currentUser = null;
+// ── state ──
+let allAccounts = [];
 let selectedAcc = null;
 
-// Simulate stored accounts
-function loadMockAccounts() {
-  const stored = localStorage.getItem('lhAccounts');
-  if (stored) return JSON.parse(stored);
-  const list = [];
-  for(let i=0;i<rngInt(6,14);i++) list.push(makeAccount(i));
-  localStorage.setItem('lhAccounts', JSON.stringify(list));
-  return list;
-}
+// ════════════════════════════════════════════════
+// BOOT — ตรวจ URL callback ทันทีที่โหลดหน้า
+// ════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', async () => {
+  document.getElementById('btnLogin').href = OAUTH_URL;
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
 
-// ─── AUTH FLOW ──────────────────────────────────────
-function startLogin(e) {
-  e.preventDefault();
-  showLoading();
-  // In production: window.location.href = OAUTH_URL
-  // For demo: simulate callback
-  setTimeout(() => {
-    currentUser = makeAccount(0);
-    currentUser.username = 'AdminUser';
-    currentUser.premium_type = 2;
-    accounts = loadMockAccounts();
-    // add self if not there
-    if (!accounts.find(a=>a.username==='AdminUser')) accounts.unshift(currentUser);
-    hideLoading();
-    showDash();
-  }, 1800);
-}
-
-function logout() {
-  currentUser = null;
-  document.getElementById('dashPage').style.display='none';
-  document.getElementById('loginPage').style.display='flex';
-  document.getElementById('navLinks').style.display='none';
-  document.getElementById('navUser').style.display='none';
-  document.getElementById('logoutBtn').style.display='none';
-}
-
-// ─── DASHBOARD RENDER ───────────────────────────────
-function showDash() {
-  document.getElementById('loginPage').style.display='none';
-  document.getElementById('dashPage').style.display='block';
-  document.getElementById('navLinks').style.display='flex';
-  document.getElementById('navUser').style.display='flex';
-  document.getElementById('logoutBtn').style.display='block';
-
-  // nav user
-  document.getElementById('navAvatar').textContent = currentUser.avatar;
-  document.getElementById('navName').textContent = currentUser.username;
-  document.getElementById('navTag').textContent = '#' + currentUser.discriminator;
-
-  // stats
-  const premium = accounts.filter(a=>a.premium_type>0).length;
-  const totalServers = accounts.reduce((s,a)=>s+a.guilds.length,0);
-  const verified = accounts.filter(a=>a.verified).length;
-  document.getElementById('statTotal').textContent = accounts.length;
-  document.getElementById('statPremium').textContent = premium;
-  document.getElementById('statServers').textContent = totalServers;
-  document.getElementById('statVerified').textContent = verified;
-
-  renderCards();
-}
-
-function renderCards() {
-  const grid = document.getElementById('accGrid');
-  grid.innerHTML = '';
-  accounts.forEach((acc,i) => {
-    const isPrem = acc.premium_type > 0;
-    const card = document.createElement('div');
-    card.className = 'acc-card' + (isPrem?' premium':'');
-    card.innerHTML = `
-      <div class="card-header">
-        <div class="card-header-blur"></div>
-        ${isPrem ? '<div class="crown">👑</div>' : ''}
-        <div class="card-avatar">${acc.avatar}</div>
-      </div>
-      <div class="card-body">
-        <div class="acc-name">${acc.username}</div>
-        <div class="acc-tag">#${acc.discriminator} · ${acc.guilds.length} เซิร์ฟ</div>
-        <div class="acc-badges">
-          ${acc.verified ? '<span class="badge badge-green">✓ Verified</span>' : ''}
-          ${isPrem ? '<span class="badge badge-gold">Nitro</span>' : ''}
-          ${acc.mfa_enabled ? '<span class="badge badge-blue">2FA</span>' : ''}
-          <span class="badge badge-pink">Bot Added</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <button class="btn-join" onclick="openModal(${i})">👁 ดูข้อมูล</button>
-        <button class="btn-view" onclick="copyAcc(${i})">📋</button>
-      </div>
-    `;
-    grid.appendChild(card);
-  });
-}
-
-// ─── MODAL ──────────────────────────────────────────
-function openModal(idx) {
-  selectedAcc = accounts[idx];
-  const a = selectedAcc;
-  const isPrem = a.premium_type > 0;
-
-  document.getElementById('modalHeader').className = 'modal-header' + (isPrem?' premium-bg':'');
-  document.getElementById('modalAvatar').textContent = a.avatar;
-  document.getElementById('modalName').textContent = a.username;
-  document.getElementById('modalDiscrim').textContent = '#' + a.discriminator + ' · ' + a.email;
-
-  document.getElementById('modalInfoGrid').innerHTML = `
-    <div class="info-item"><div class="info-label">User ID</div><div class="info-val mono">${a.id.slice(0,18)}…</div></div>
-    <div class="info-item"><div class="info-label">สถานะ</div><div class="info-val">${a.verified?'✅ ยืนยันแล้ว':'❌ ยังไม่ยืนยัน'}</div></div>
-    <div class="info-item"><div class="info-label">Nitro</div><div class="info-val">${a.premium_type===0?'ไม่มี':a.premium_type===1?'Nitro Classic':'Nitro'}</div></div>
-    <div class="info-item"><div class="info-label">2FA</div><div class="info-val">${a.mfa_enabled?'✅ เปิดใช้':'❌ ปิดใช้'}</div></div>
-    <div class="info-item"><div class="info-label">เข้าร่วมเมื่อ</div><div class="info-val">${a.joined}</div></div>
-    <div class="info-item"><div class="info-label">Locale</div><div class="info-val">${a.locale.toUpperCase()}</div></div>
-  `;
-
-  const gl = document.getElementById('modalGuilds');
-  gl.innerHTML = a.guilds.map(g=>`
-    <div class="guild-item">
-      <div class="guild-icon">${g.icon}</div>
-      <div>
-        <div class="guild-name">${g.name} ${g.owner?'👑':''}</div>
-        <div class="guild-id">${g.id.slice(0,12)}…</div>
-      </div>
-    </div>
-  `).join('');
-
-  document.getElementById('modalOverlay').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-}
-
-function copyToken() {
-  if (!selectedAcc) return;
-  navigator.clipboard.writeText(selectedAcc.token).catch(()=>{});
-  showToast('📋 คัดลอก Token แล้ว!');
-}
-
-function copyAcc(idx) {
-  const a = accounts[idx];
-  const text = `User: ${a.username}#${a.discriminator}\nEmail: ${a.email}\nToken: ${a.token}`;
-  navigator.clipboard.writeText(text).catch(()=>{});
-  showToast('📋 คัดลอกข้อมูลแล้ว!');
-}
-
-// ─── HELPERS ────────────────────────────────────────
-function showLoading() { document.getElementById('loadingOverlay').classList.add('open'); }
-function hideLoading() { document.getElementById('loadingOverlay').classList.remove('open'); }
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2500);
-}
-
-// Close modal on overlay click
-document.getElementById('modalOverlay').addEventListener('click', function(e){
-  if (e.target === this) closeModal();
+  if (code) {
+    // ลบ code จาก URL ไม่ให้ refresh แล้วเออเร่อ
+    window.history.replaceState({}, '', window.location.pathname);
+    await handleCallback(code);
+  } else {
+    // ตรวจว่าเคย login ไว้แล้วหรือยัง (token เก็บใน sessionStorage)
+    const token = sessionStorage.getItem('lh_token');
+    if (token) await loadDash(token);
+  }
 });
 
-// ─── AUTO-LOGIN CHECK ────────────────────────────────
-// In a real app: check for OAuth callback code in URL
-// window.onload = () => { if (window.location.search.includes('code=')) handleCallback(); }
+// ════════════════════════════════════════════════
+// OAUTH CALLBACK
+// ════════════════════════════════════════════════
+async function handleCallback(code) {
+  showLoad('กำลังยืนยันกับ Discord…');
+  try {
+    const res = await fetch(`${BACKEND}/api/callback`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const { token } = await res.json();
+    sessionStorage.setItem('lh_token', token);
+    await loadDash(token);
+  } catch(e) {
+    hideLoad();
+    showToast('❌ ' + (e.message || 'เกิดข้อผิดพลาด'));
+    console.error(e);
+  }
+}
+
+// ════════════════════════════════════════════════
+// LOAD DASHBOARD DATA
+// ════════════════════════════════════════════════
+async function loadDash(token) {
+  showLoad('กำลังโหลดข้อมูล…');
+  try {
+    const [meRes, accRes] = await Promise.all([
+      fetch(`${BACKEND}/api/me`, { headers: { Authorization: `Bearer ${token}` } }),
+      fetch(`${BACKEND}/api/accounts`, { headers: { Authorization: `Bearer ${token}` } })
+    ]);
+    if (!meRes.ok || !accRes.ok) {
+      sessionStorage.removeItem('lh_token');
+      throw new Error('Session หมดอายุ กรุณาล็อกอินใหม่');
+    }
+    const me = await meRes.json();
+    const accounts = await accRes.json();
+    hideLoad();
+    renderDash(me, accounts);
+  } catch(e) {
+    hideLoad();
+    showToast('⚠️ ' + e.message);
+  }
+}
+
+// ════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════
+function renderDash(me, accounts) {
+  allAccounts = accounts;
+
+  // navbar
+  document.getElementById('navLinks').style.display = 'flex';
+  document.getElementById('navUser').style.display = 'flex';
+  document.getElementById('btnLogout').style.display = 'block';
+
+  const aviSrc = me.avatar
+    ? `https://cdn.discordapp.com/avatars/${me.id}/${me.avatar}.png?size=64`
+    : `https://cdn.discordapp.com/embed/avatars/${(BigInt(me.id) >> 22n) % 6n}.png`;
+  document.getElementById('navAvi').src = aviSrc;
+  document.getElementById('navName').textContent = me.username;
+  document.getElementById('navTag').textContent = me.discriminator !== '0' ? '#' + me.discriminator : '';
+  document.getElementById('heroGreet').textContent = `🎀 ยินดีต้อนรับ, ${me.username}!`;
+
+  // stats
+  const prem = accounts.filter(a => a.premium_type > 0).length;
+  const svrs = accounts.reduce((s, a) => s + (a.guilds?.length || 0), 0);
+  const vfy = accounts.filter(a => a.verified).length;
+  document.getElementById('sTotal').textContent = accounts.length;
+  document.getElementById('sPrem').textContent = prem;
+  document.getElementById('sSvr').textContent = svrs;
+  document.getElementById('sVfy').textContent = vfy;
+
+  renderCards(accounts);
+  document.getElementById('pg-login').style.display = 'none';
+  document.getElementById('pg-dash').style.display = 'block';
+}
+
+function renderCards(list) {
+  const grid = document.getElementById('accGrid');
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty"><span class="e-icon">🔍</span>ยังไม่มีบัญชีในระบบ</div>';
+    return;
+  }
+  grid.innerHTML = list.map((a, i) => {
+    const isPrem = a.premium_type > 0;
+    const aviSrc = a.avatar
+      ? `https://cdn.discordapp.com/avatars/${a.id}/${a.avatar}.png?size=64`
+      : '';
+    const aviHtml = aviSrc
+      ? `<img src="${aviSrc}" onerror="this.style.display='none'">`
+      : `<span style="font-size:22px">${'👤'}</span>`;
+    return `
+    <div class="acc-card ${isPrem?'prem':''}" >
+      <div class="card-head">
+        <div class="card-head-glow"></div>
+        ${isPrem ? '<div class="crown">👑</div>' : ''}
+        <div class="card-avi">${aviHtml}</div>
+      </div>
+      <div class="card-body">
+        <div class="acc-name">${esc(a.username)}${a.discriminator!=='0'?'#'+a.discriminator:''}</div>
+        <div class="acc-sub">${a.email||'ไม่มีอีเมล'} · ${a.guilds?.length||0} เซิร์ฟ</div>
+        <div class="badges">
+          ${a.verified ? '<span class="badge b-green">✓ Verified</span>' : ''}
+          ${isPrem ? `<span class="badge b-gold">${a.premium_type===1?'Nitro Classic':'Nitro'}</span>` : ''}
+          ${a.mfa_enabled ? '<span class="badge b-blue">2FA</span>' : ''}
+          <span class="badge b-pink">Bot Added</span>
+        </div>
+      </div>
+      <div class="card-foot">
+        <button class="btn-view" onclick="openModal(${i})">👁 ดูข้อมูล</button>
+        <button class="btn-copy" onclick="quickCopy(${i})" title="คัดลอก">📋</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterCards(type) {
+  if (type === 'prem') renderCards(allAccounts.filter(a => a.premium_type > 0));
+  else renderCards(allAccounts);
+}
+
+// ════════════════════════════════════════════════
+// MODAL
+// ════════════════════════════════════════════════
+function openModal(i) {
+  selectedAcc = allAccounts[i];
+  const a = selectedAcc;
+  const isPrem = a.premium_type > 0;
+  const aviSrc = a.avatar ? `https://cdn.discordapp.com/avatars/${a.id}/${a.avatar}.png?size=128` : '';
+
+  document.getElementById('mHead').className = 'm-head' + (isPrem ? ' prem' : '');
+  document.getElementById('mAvi').innerHTML = aviSrc
+    ? `<img src="${aviSrc}" style="width:100%;height:100%;object-fit:cover">`
+    : `<span style="font-size:28px;display:flex;align-items:center;justify-content:center;height:100%">👤</span>`;
+  document.getElementById('mName').textContent = a.username + (a.discriminator !== '0' ? '#' + a.discriminator : '');
+  document.getElementById('mTag').textContent = a.email || 'ไม่มีอีเมล';
+
+  document.getElementById('mInfo').innerHTML = `
+    <div class="info-item"><div class="info-lbl">User ID</div><div class="info-val mono">${a.id}</div></div>
+    <div class="info-item"><div class="info-lbl">สถานะ</div><div class="info-val">${a.verified?'✅ ยืนยันแล้ว':'❌ ยังไม่ยืนยัน'}</div></div>
+    <div class="info-item"><div class="info-lbl">Nitro</div><div class="info-val">${['ไม่มี','Nitro Classic','Nitro','Nitro Basic'][a.premium_type]||'ไม่ทราบ'}</div></div>
+    <div class="info-item"><div class="info-lbl">2FA</div><div class="info-val">${a.mfa_enabled?'✅ เปิด':'❌ ปิด'}</div></div>
+    <div class="info-item"><div class="info-lbl">Locale</div><div class="info-val">${a.locale||'–'}</div></div>
+    <div class="info-item"><div class="info-lbl">เซิร์ฟเวอร์</div><div class="info-val">${a.guilds?.length||0} แห่ง</div></div>
+  `;
+
+  const guilds = a.guilds || [];
+  document.getElementById('mGuilds').innerHTML = guilds.length
+    ? guilds.map(g => `
+      <div class="guild-item">
+        <div class="g-icon">${g.icon ? `<img src="https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=32" style="width:100%;height:100%;border-radius:8px;object-fit:cover" onerror="this.parentElement.textContent='${esc(g.name.slice(0,2))}'">` : esc(g.name.slice(0,2))}</div>
+        <div><div class="g-name">${esc(g.name)} ${g.owner?'👑':''}</div><div class="g-id">${g.id}</div></div>
+      </div>`).join('')
+    : '<div style="color:var(--muted);font-size:12px;padding:10px">ไม่พบเซิร์ฟเวอร์</div>';
+
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('overlay').classList.remove('open'); }
+
+function copyInfo() {
+  if (!selectedAcc) return;
+  const a = selectedAcc;
+  const txt = [
+    `Username: ${a.username}${a.discriminator!=='0'?'#'+a.discriminator:''}`,
+    `User ID: ${a.id}`,
+    `Email: ${a.email||'N/A'}`,
+    `Verified: ${a.verified}`,
+    `Nitro: ${a.premium_type}`,
+    `2FA: ${a.mfa_enabled}`,
+    `Guilds: ${a.guilds?.length||0}`,
+    `Access Token: ${a.access_token||'N/A'}`,
+  ].join('\n');
+  navigator.clipboard.writeText(txt).then(() => showToast('📋 คัดลอกข้อมูลแล้ว!')).catch(()=>showToast('❌ คัดลอกไม่ได้'));
+}
+
+function quickCopy(i) {
+  const a = allAccounts[i];
+  const txt = `${a.username}${a.discriminator!=='0'?'#'+a.discriminator:''} | ${a.email||'N/A'} | ${a.id}`;
+  navigator.clipboard.writeText(txt).then(() => showToast('📋 คัดลอกแล้ว!')).catch(()=>{});
+}
+
+// ════════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════════
+function logout() {
+  sessionStorage.removeItem('lh_token');
+  allAccounts = [];
+  document.getElementById('pg-dash').style.display = 'none';
+  document.getElementById('pg-login').style.display = 'flex';
+  document.getElementById('navLinks').style.display = 'none';
+  document.getElementById('navUser').style.display = 'none';
+  document.getElementById('btnLogout').style.display = 'none';
+}
+
+// ════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function showLoad(txt='กำลังโหลด…') { document.getElementById('loadTxt').textContent = txt; document.getElementById('loading').classList.add('open'); }
+function hideLoad() { document.getElementById('loading').classList.remove('open'); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
 </script>
 </body>
 </html>
